@@ -2,8 +2,9 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
-import myUserRoute from './routes/MyUserRoute'
-
+import myUserRoute from './routes/MyUserRoute';
+import myRestaurantRoute from './routes/MyRestaurantRoute';
+import {v2 as cloudinary} from "cloudinary";
 
 //connecting to mongodb
 mongoose
@@ -12,6 +13,13 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to database:", error);
   });
+
+//connecting to cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const app = express();
 app.use(express.json()); //middleware that will convert response body into json
@@ -23,6 +31,7 @@ app.get("/health", async (req: Request, res: Response)=>{
 });
 
 app.use("/api/my/user", myUserRoute);
+app.use("/api/my/restaurant", myRestaurantRoute);
 
 app.listen(7000, ()=>{
   console.log("App listening on localhost:7000");
