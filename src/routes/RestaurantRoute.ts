@@ -4,6 +4,17 @@ import RestaurantController from "../controller/RestaurantController";
 
 const router = express.Router();
 
+//api/restaurant/Scott'sBBQ
+router.get(
+  "/:restaurantId",
+  param("restaurantId") //validating that the request we get has a valid city param in req
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("RestaurantId parameter must be a valid string"),
+  RestaurantController.getRestaurant  
+);
+
 // /api/restaurant/search/london
 // :city tells express that any string after : is going to be a city variable
 router.get(
