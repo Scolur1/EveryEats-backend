@@ -4,6 +4,8 @@ import OrderController from "../controller/OrderController";
 
 const router = express.Router();
 
+router.get("/", jwtCheck,jwtParse, OrderController.getMyOrders);
+
 //if we get a checkout request to a create-checkout-session, auth will get validated, hand off to controller
 router.post(
   "/checkout/create-checkout-session", 
